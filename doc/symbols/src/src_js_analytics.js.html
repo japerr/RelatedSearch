@@ -1,0 +1,74 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> 	@fileOverview Google analytics wrapper class, initialize usage tracking and event tracking
+<span class='line'>  3</span> 	@author &lt;a href="mailto:relatedsearchextension@japerr.com">Jeremy Perrin&lt;/a>
+<span class='line'>  4</span> 	@version 1.0.0
+<span class='line'>  5</span> */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="COMM">/**
+<span class='line'>  8</span> 	Startup google analytics when the page is ready
+<span class='line'>  9</span> */</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="NAME">document.addEventListener</span><span class="PUNC">(</span><span class="STRN">'DOMContentLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 12</span> 		Initial namespace creation
+<span class='line'> 13</span> 		@namespace Top level namespace for related search extension
+<span class='line'> 14</span> 	*/</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">RelatedSearch</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">RelatedSearch</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 17</span> 		Static google analytics class, which handles adding tracking behavior
+<span class='line'> 18</span> 		@class Analytics representation
+<span class='line'> 19</span> 		@constructor
+<span class='line'> 20</span> 	*/</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="NAME">RelatedSearch.Analytics</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 23</span> 			Default element selector
+<span class='line'> 24</span> 			@field
+<span class='line'> 25</span> 		*/</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">		</span><span class="NAME">selector</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'a'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 28</span> 			Initialization method for Analytics class
+<span class='line'> 29</span> 				attaches the trackButtonClick event listener to all elements retrieve using the {@link RelatedSearch.Analytics.selector}
+<span class='line'> 30</span> 		*/</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">		</span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">buttons</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.querySelectorAll</span><span class="PUNC">(</span><span class="NAME">this.selector</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">buttons.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">				</span><span class="NAME">buttons</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">addEventListener</span><span class="PUNC">(</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.trackButtonClick</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 37</span> 			Queues up a google analytics click tracking event
+<span class='line'> 38</span> 			@param e Click event containing the button id to track
+<span class='line'> 39</span> 		*/</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">		</span><span class="NAME">trackButtonClick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">			</span><span class="NAME">_gaq.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="STRN">'_trackEvent'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'clicked'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e.target.id</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 45</span> 		Call to the static analytics initialization method.
+<span class='line'> 46</span> 	*/</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="NAME">RelatedSearch.Analytics.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="COMM">/**
+<span class='line'> 50</span> 	Initializes the google analytics queue
+<span class='line'> 51</span> 	Set the account
+<span class='line'> 52</span> 	Add page view track	
+<span class='line'> 53</span> */</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">_gaq</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_gaq</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="NAME">_gaq.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="STRN">'_setAccount'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'UA-31616439-1'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="NAME">_gaq.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="STRN">'_trackPageview'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="COMM">/**
+<span class='line'> 58</span> 	Insert google analytics script tag into the options page
+<span class='line'> 59</span> */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ga</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'script'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="NAME">ga.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'text/javascript'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="NAME">ga.async</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="NAME">ga.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'https://ssl.google-analytics.com/ga.js'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">'script'</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="NAME">s.parentNode.insertBefore</span><span class="PUNC">(</span><span class="NAME">ga</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">s</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

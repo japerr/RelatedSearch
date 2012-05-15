@@ -1,0 +1,50 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> 	@fileOverview Extension background script, initializes default options and sets up default browser action behavior
+<span class='line'>  3</span> 	@author &lt;a href="mailto:relatedsearchextension@japerr.com">Jeremy Perrin&lt;/a>
+<span class='line'>  4</span> 	@version 1.0.0
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="COMM">/**
+<span class='line'>  8</span> 	Initializes the default related url, if it's not set
+<span class='line'>  9</span> 	@default 'http://www.google.com/search?q=related:'
+<span class='line'> 10</span> */</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">localStorage.related_url</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">	</span><span class="NAME">localStorage.related_url</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'http://www.google.com/search?q=related:'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="COMM">/**							 
+<span class='line'> 14</span> 	Click behavior for related search browser action
+<span class='line'> 15</span> 	domain is pulled from the current tab url regex
+<span class='line'> 16</span> 	Domain RegExp: http://stackoverflow.com/questions/3689423/google-chrome-plugin-how-to-get-domain-from-url-tab-url/3689475#3689475
+<span class='line'> 17</span> */</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="NAME">chrome.browserAction.onClicked.addListener</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">domain</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tab.url.match</span><span class="PUNC">(</span><span class="REGX">/^[\w-]+:\/*\[?([\w\.:-]+)\]?(?::\d+)?/</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">	</span><span class="NAME">_gaq.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="STRN">'_trackEvent'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'related search'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">domain</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="NAME">chrome.tabs.create</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="STRN">'url'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">localStorage.related_url</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">domain</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="COMM">/**
+<span class='line'> 24</span> 	Initializes the google analytics queue
+<span class='line'> 25</span> 	Set the account
+<span class='line'> 26</span> 	Add page view track	
+<span class='line'> 27</span> 	@field
+<span class='line'> 28</span> */</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">_gaq</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_gaq</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="NAME">_gaq.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="STRN">'_setAccount'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'UA-31616439-1'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="NAME">_gaq.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="STRN">'_trackPageview'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="COMM">/**
+<span class='line'> 33</span> 	Insert google analytics script tag into the options page
+<span class='line'> 34</span> 	@function
+<span class='line'> 35</span> */</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ga</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'script'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">	</span><span class="NAME">ga.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'text/javascript'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="NAME">ga.async</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="NAME">ga.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'https://ssl.google-analytics.com/ga.js'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">'script'</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="NAME">s.parentNode.insertBefore</span><span class="PUNC">(</span><span class="NAME">ga</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">s</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
