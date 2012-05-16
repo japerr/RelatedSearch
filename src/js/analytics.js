@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			Default element selector
 			@field
 		*/
-		selector: 'a',
+		selector: "a:not([ga='ignore'])",
 		/**
 			Initialization method for Analytics class
 				attaches the trackButtonClick event listener to all elements retrieve using the {@link RelatedSearch.Analytics.selector}
